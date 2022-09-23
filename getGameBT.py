@@ -10,7 +10,7 @@ work_path = os.path.join(os.path.dirname(
 
 def downHtml(url):
     try:
-        r = requests.get(url)
+        r = requests.get(url, headers={'Referer': 'http://ce.ysepan.com/f_ht/ajcx/000ht.html?bbh=1164'})
         r.raise_for_status
         return r.text
     except Exception as e:
@@ -20,12 +20,12 @@ def downHtml(url):
 
 def getTorrentUrl():
     new_url = []
-    start_url = 'http://cc.ys168.com/f_ht/ajcx/ml.aspx?cz=ml_dq&_dlmc=renxufeng&_dlmm='
+    start_url = 'http://ce.ysepan.com/f_ht/ajcx/ml.aspx?cz=ml_dq&_dlmc=gbtgame&_dlmm='
     text = downHtml(start_url)
     re_list = re.findall("ml_\d+", text)
     for id in re_list:
-        temp_url = 'http://cc.ys168.com/f_ht/ajcx/wj.aspx?cz=dq&mlbh=' + \
-            id[3:]+'&_dlmc=renxufeng&_dlmm='
+        temp_url = 'http://ce.ysepan.com/f_ht/ajcx/wj.aspx?cz=dq&jsq=0&mlbh=' + \
+            id[3:]+'&wjpx=1&_dlmc=gbtgame&_dlmm='
         new_url.append(temp_url)
     if len(new_url) > 0:
         return new_url
@@ -71,8 +71,8 @@ def main():
         print('torrent链接写入中...')
         parserTorrent(url_list)
     # 下载torrent文件
-    print("下载torrent链接中...\n")
-    print("数量：%s" % len(torrent_url_list))
+    print("下载torrent链接中...")
+    print("任务数量：%s" % len(torrent_url_list))
     getTorrentFile(torrent_url_list)
     print("下载完成.")
 
